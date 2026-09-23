@@ -47,30 +47,7 @@ Say you need to add rate limiting to a Python endpoint:
 3. `/verify-checklist-python` opens the same checklist cold, re-reads the real code and
    tests against every claim, and repairs anything that was marked done but wasn't -
    before you ever open a PR.
-4. Once it's real, run **Code Tour** on the branch to get a proper explanation of what you
-   just shipped (see below).
-
 The C# flavor works the same way, just swap `python` for `csharp`.
-
-## Code Tour: catching up on what actually changed
-
-`/code-tour` has two scopes. A pull request, branch, diff, change, or commit range means
-"explain one change" and produces a single self-contained HTML page: what changed, the
-core idea behind it, how the touched pieces fit together, a visual trace of the data
-flowing through the real change, a code walkthrough ordered by logical flow rather than
-file order, and a short quiz to check it actually landed. Use `/code-tour branch` for the
-current branch or `/code-tour branch feature/login` for a named branch. Use `/code-tour
-commit abc123 def456` to compare an ordered source commit with a target commit. Use
-`/code-tour repo` for an explicit whole-repository HTML report, or `/code-tour repo
-authentication flow` to focus that report on one area. Every scope writes a self-contained
-HTML file. With no further wording, `/code-tour` defaults to the current branch versus the
-repository's default branch.
-
-This is the natural last step after Plan → Do → Verify: the checklist cycle proves the
-change is *correct*; Code Tour makes it *understandable* - to a teammate reviewing the PR,
-to future-you re-opening a branch after a two-week gap, or to anyone who just needs to get
-back up to speed on what actually moved in the codebase without re-reading the whole diff
-by hand.
 
 ## Reference
 
@@ -82,7 +59,6 @@ by hand.
 | [`do-checklist-csharp`](./do-checklist-csharp/SKILL.md) | C# / .NET | Do |
 | [`verify-checklist-python`](./verify-checklist-python/SKILL.md) | Python | Verify |
 | [`verify-checklist-csharp`](./verify-checklist-csharp/SKILL.md) | C# / .NET | Verify |
-| [`code-tour`](./code-tour/SKILL.md) | Any | After - explain the result |
 
 Full detail, triggers, and rules live in each skill's own `SKILL.md` - this file is a map,
 not a replacement for reading them.
