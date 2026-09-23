@@ -1,9 +1,9 @@
 ---
-name: rereview-python-implementation
+name: verify-checklist-python
 description: Skeptically re-audit a completed local Python implementation checklist, including child checklists and their parent overview when present, then fix and prove real gaps in code, tests, documentation, and runtime wiring.
 ---
 
-# Rereview Python Implementation
+# Verify Checklist (Python)
 
 Re-audit a completed local Python implementation checklist without trusting its
 checkmarks. The goal is runtime truth: identify misleading claims, missing
@@ -45,7 +45,7 @@ cross-checklist integration and final gates pass.
 Do not let a completed child imply completion of another child or the parent.
 If a child invalidates shared assumptions, mark the affected overview and
 children blocked, record the evidence, and route the plan back to
-`create-python-implement-checklist` for an explicit revision. Local artifacts
+`plan-checklist-python` for an explicit revision. Local artifacts
 and recorded proof remain the sole basis for that decision.
 
 ## Per-item skeptical loop

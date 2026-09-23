@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan Checklist (Python)"
+  short_description: "Plan a phased Python implementation checklist"
+  default_prompt: "Use $plan-checklist-python to create a phased, verifiable implementation checklist for this Python repository."

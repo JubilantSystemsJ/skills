@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verify Checklist (Python)"
+  short_description: "Verify Python work against its checklist"
+  default_prompt: "Use $verify-checklist-python to re-audit this Python implementation against its checklist."

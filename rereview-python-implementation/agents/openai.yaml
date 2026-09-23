@@ -1,4 +1,0 @@
-interface:
-  display_name: "Re-review Python Implementation"
-  short_description: "Audit Python work against its checklist"
-  default_prompt: "Use $rereview-python-implementation to re-audit this Python implementation against its checklist."

@@ -1,9 +1,9 @@
 ---
-name: create-python-implement-checklist
+name: plan-checklist-python
 description: Turn supplied Python requirements, PRDs, specifications, issues, and repository documentation into one local implementation checklist or a coordinated set of bounded local checklists. Use for planning only, before code execution.
 ---
 
-# Create Python Implement Checklist
+# Plan Checklist (Python)
 
 Create the local implementation artifact that a later coding agent will
 execute. This skill plans only: it does not edit application code, run
@@ -172,5 +172,7 @@ Before reporting completion, confirm:
 Report the artifact paths, whether the result is standalone or coordinated,
 the child count and next executable child when applicable, source documents
 consumed, detected tooling, planned runtime/browser proof, assumptions, and
-the next skill: `implement-python-checklist` for an executable checklist or
-`plan-python-checklist` when a parent overview needs coordination first.
+the next skill: `work-checklist-python` for an executable checklist. (A
+parent-overview coordination skill was referenced here before this rename but
+does not exist among this repo's skills; flag that gap rather than inventing
+a target for it.)

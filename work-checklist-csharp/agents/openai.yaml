@@ -1,0 +1,4 @@
+interface:
+  display_name: "Work Checklist (C#)"
+  short_description: "Work through a C# checklist with live proof"
+  default_prompt: "Use $work-checklist-csharp to execute this approved local C# implementation checklist and record evidence."

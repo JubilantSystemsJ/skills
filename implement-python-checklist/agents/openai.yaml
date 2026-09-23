@@ -1,4 +1,0 @@
-interface:
-  display_name: "Implement Python Checklist"
-  short_description: "Implement Python checklists with proof"
-  default_prompt: "Use $implement-python-checklist to implement this Python checklist with tests and runtime proof."

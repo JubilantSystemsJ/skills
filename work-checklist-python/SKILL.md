@@ -1,9 +1,9 @@
 ---
-name: implement-python-checklist
+name: work-checklist-python
 description: Execute one approved local Python implementation checklist, including a child selected by a parent overview, with behavior-first tests, repository quality gates, and live runtime proof. Use after local checklist planning is approved.
 ---
 
-# Implement Python Checklist
+# Work Checklist (Python)
 
 Turn one approved local Python implementation checklist into working, evidenced
 behavior. This skill executes one bounded checklist at a time; it does not
@@ -55,7 +55,7 @@ and the parent integration and final gates pass.
 
 If execution shows that the checklist boundary is wrong, stop at the smallest
 safe decision point. Record the conflict and return the checklist set to
-`create-python-implement-checklist` for an explicit revision; do not silently
+`plan-checklist-python` for an explicit revision; do not silently
 absorb another child's scope or invent a new child during implementation.
 
 ## Execute incrementally
@@ -115,7 +115,7 @@ re-running its full gate.
 At completion, review the diff against two independent questions: does it meet
 the originating PRD/specification, and does it meet the repository's Python
 standards and architecture? Keep the reports separate. Resolve material
-findings before handing the checklist to `rereview-python-implementation`, or
+findings before handing the checklist to `verify-checklist-python`, or
 record them as explicit blockers.
 
 ## Keep records true

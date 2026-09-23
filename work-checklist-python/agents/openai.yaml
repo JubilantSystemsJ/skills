@@ -1,0 +1,4 @@
+interface:
+  display_name: "Work Checklist (Python)"
+  short_description: "Work through a Python checklist with proof"
+  default_prompt: "Use $work-checklist-python to implement this Python checklist with tests and runtime proof."

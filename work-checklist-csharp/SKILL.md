@@ -1,9 +1,9 @@
 ---
-name: implement-csharp-checklist
+name: work-checklist-csharp
 description: Execute one approved local C# and .NET implementation checklist, including a child selected by a parent overview, with behavior-first tests, quality gates, and live runtime proof. Use after local checklist planning is approved.
 ---
 
-# Implement C# Checklist
+# Work Checklist (C#)
 
 Turn one approved local C# implementation checklist into working, evidenced
 behavior. This skill executes one bounded checklist at a time; it does not
@@ -44,7 +44,7 @@ integration and final gates pass.
 
 If execution proves the split wrong, stop at the smallest safe decision point,
 record the evidence, and return the artifacts to
-`create-csharp-implement-checklist` for an explicit revision.
+`plan-checklist-csharp` for an explicit revision.
 
 ## Execute Incrementally
 
@@ -111,4 +111,4 @@ Lead with implemented behavior. Include executed checklist path, completed
 items, materially changed files/contracts, behavior-first tests, exact final
 gates, live runtime/browser proof, recorded evidence, and blockers. For a
 child checklist, name the parent overview and next local action. Hand the
-completed checklist to `rereview-csharp-implementation` for independent proof.
+completed checklist to `verify-checklist-csharp` for independent proof.

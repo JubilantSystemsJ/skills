@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verify Checklist (C#)"
+  short_description: "Independently audit C# checklist evidence"
+  default_prompt: "Use $verify-checklist-csharp to independently audit this completed local C# implementation checklist and repair proven gaps."

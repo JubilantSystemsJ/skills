@@ -1,9 +1,9 @@
 ---
-name: create-csharp-implement-checklist
+name: plan-checklist-csharp
 description: Turn supplied C# and .NET requirements, PRDs, specifications, issues, and repository documentation into one local implementation checklist or a coordinated set of bounded local checklists. Use for planning only, before code execution.
 ---
 
-# Create C# Implement Checklist
+# Plan Checklist (C#)
 
 Create the local implementation artifact that a later C# coding agent will
 execute. This skill plans only: it does not edit application code, run
@@ -190,4 +190,4 @@ Before reporting completion, confirm:
 Report artifact paths, standalone or coordinated shape, child count and next
 executable child when applicable, source documents consumed, target framework
 and tooling detected, planned runtime/browser proof, assumptions, and the next
-skill: `implement-csharp-checklist`.
+skill: `work-checklist-csharp`.

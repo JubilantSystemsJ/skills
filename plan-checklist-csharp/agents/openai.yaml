@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan Checklist (C#)"
+  short_description: "Plan a local C# implementation checklist"
+  default_prompt: "Use $plan-checklist-csharp to turn the supplied C# requirements into a local implementation checklist or coordinated checklist set."

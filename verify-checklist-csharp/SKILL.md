@@ -1,9 +1,9 @@
 ---
-name: rereview-csharp-implementation
+name: verify-checklist-csharp
 description: Skeptically re-audit a completed local C# and .NET implementation checklist, including child checklists and their parent overview when present, then fix and prove real gaps in code, tests, documentation, and runtime wiring.
 ---
 
-# Rereview C# Implementation
+# Verify Checklist (C#)
 
 Re-audit a completed local C# implementation checklist without trusting its
 checkmarks. Find missing behavior, weak tests, stale documentation, dead paths,
@@ -37,7 +37,7 @@ claimed completion before shared integration and final gates pass.
 
 Do not let a completed child imply completion of another child or the parent.
 If a child invalidates shared assumptions, mark affected children blocked,
-record evidence, and route the artifacts to `create-csharp-implement-checklist`
+record evidence, and route the artifacts to `plan-checklist-csharp`
 for an explicit revision.
 
 ## Per-Item Skeptical Loop
