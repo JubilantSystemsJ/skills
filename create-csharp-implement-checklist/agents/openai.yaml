@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create C# Checklist"
+  short_description: "Author local C# implementation checklists"
+  default_prompt: "Use $create-csharp-implement-checklist to turn the supplied C# requirements into a local implementation checklist or coordinated checklist set."

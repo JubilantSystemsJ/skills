@@ -1,287 +1,176 @@
 ---
 name: create-python-implement-checklist
-description: Create a phased, agent-executable implementation checklist from Python project requirements, architecture documents, ADRs, and contracts. Use when the user wants an implementation plan or markdown work queue, not code execution, issue creation, or a PRD.
+description: Turn supplied Python requirements, PRDs, specifications, issues, and repository documentation into one local implementation checklist or a coordinated set of bounded local checklists. Use for planning only, before code execution.
 ---
 
 # Create Python Implement Checklist
 
-Create one implementation checklist that a coding agent can execute in a Python
-repository. The checklist is a planning artifact: do not implement code,
-create issues, commit, or push while using this skill.
+Create the local implementation artifact that a later coding agent will
+execute. This skill plans only: it does not edit application code, run
+implementation validation, create tracker work, commit, or push.
 
-This skill is intentionally Python-specific. It borrows the useful checklist
-shape of generic planning tools, but it does not assume .NET, TypeScript,
-React, a particular package manager, or a database.
+The source may be a PRD, specification, issue, work description, conversation,
+bug report, roadmap section, or any combination of supplied documentation. A
+source is input evidence, not a delivery unit. The deliverable is either one
+implementation checklist or a parent overview with several bounded child
+checklists.
 
-## Workflow
+## 1. Gather Only Decision-Bearing Context
 
-### 1. Discover the repository contract
+Read the supplied sources and the repository material needed to interpret them:
 
-Before drafting the checklist, inspect only the relevant sources:
+- repository and directory instructions;
+- the primary request plus linked PRDs, specifications, issues, ADRs, and
+  contracts;
+- relevant architecture, data, API, and UX documents;
+- packaging, test, quality, startup, CI, and browser configuration;
+- the nearest implementation and committed tests for an existing behavior.
 
-- repository instructions such as `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`,
-  and directory-specific instructions;
-- the primary roadmap/requirements document;
-- relevant PRD/specification, ADRs, data models, API/view contracts, and UX
-  documents;
-- `pyproject.toml`, `requirements*.txt`, lockfiles, packaging metadata,
-  Makefile/task runner scripts, CI configuration, and existing test config;
-- the nearest implementation and committed tests when the checklist targets an
-  existing module.
+Use the repository's fast search tools first. Do not inventory unrelated
+documentation merely to make the source list look comprehensive.
 
-Use `rg --files` and `rg` first. Do not read unrelated documentation merely to
-make the source list look comprehensive.
+Record verified facts before designing work: Python version and package layout;
+architecture and integration boundaries; formatter, lint, type, test, coverage,
+security, dependency, and secret-scan commands; canonical safe runtime proof;
+browser tooling; documentation locations; and any unknowns. An unverified
+command or requirement is an explicit assumption or prerequisite, never a
+fabricated checklist task.
 
-Record the detected facts before writing:
+## 2. Decide the Artifact Shape
 
-- supported Python version and package layout (`src/`, flat package, or other);
-- framework and integration boundaries;
-- formatter, linter, type checker, test runner, coverage threshold,
-  dependency/security scanners, and secret scanner;
-- canonical application entrypoint and a safe terminating runtime command;
-- browser/E2E tooling if a web surface exists;
-- required documentation and generated-artifact locations.
+Write **one standalone checklist** when the requested outcome has one cohesive
+implementation boundary and can be completed, quality-gated, and proven through
+one safe runtime path in a focused execution context.
 
-If a command or runtime entrypoint cannot be verified, mark it as an explicit
-assumption or prerequisite instead of presenting it as a confirmed command.
+Write a **checklist set** only when one or more of these conditions holds:
 
-### 2. Reconcile requirements into execution boundaries
+- the work contains independently releasable or independently verifiable
+  outcomes;
+- one outcome depends on evidence or a contract produced by another;
+- separate repository, package, migration, or runtime boundaries need isolated
+  validation and rollback;
+- the full work cannot be executed and reviewed safely in one focused context
+  without losing traceability or conflating unrelated failure modes.
 
-Extract the actual product outcome, decisions, invariants, dependencies,
-non-goals, and future/deferred capabilities. Group work by cohesive boundary,
-not by screen or file list alone.
+Do not split merely because the plan has several phases or files. Keep every
+artifact file-backed and local; the plan records local prerequisites and
+evidence, not a projection to another system.
 
-For each requirement, identify:
+For a checklist set, create one parent overview and child checklists. The
+parent is coordination metadata, never executable work. Each child has one
+observable outcome, its own scope, prerequisites, test seam, validation, and
+completion gate. When architecture or integration uncertainty needs proof, make
+the first vertical child prove the relevant path end to end before dependent
+children begin.
 
-- owning domain/application/infrastructure/client boundary;
-- public interface or data contract;
-- observable behavior and failure modes;
-- test seam and realistic validation;
-- documentation that must change;
-- dependency on a previous phase.
+## 3. Reconcile Source Material Into Bounded Work
 
-Keep the checklist aligned with existing architecture. If a web surface exists,
-routes are transport adapters over application services; they do not read
-runtime files, call provider SDKs, launch subprocesses, or own workflow state.
-If the project uses another architecture, preserve its documented boundaries
-instead of imposing this example.
+For every source requirement, determine the owning boundary, observable
+behavior, failure behavior, public contract, test seam, documentation impact,
+and prerequisite. Preserve documented architecture rather than imposing a new
+one. For a web surface, routes remain transport adapters over application
+services and do not own runtime files, provider SDKs, subprocesses, or workflow
+state.
 
-### 3. Produce the checklist
+Map every requirement to exactly one child checklist or standalone checklist.
+Shared rules and cross-checklist constraints belong in the parent overview;
+they are repeated in a child only when execution needs them locally. Surface a
+real contradiction or missing product decision as a prerequisite gate instead
+of silently deciding it.
 
-Use the canonical format below. Keep each item small enough for one focused
-agent pass, but large enough to produce a behaviorally meaningful result.
-Every item receives a sequential `P-###` identifier and maps to tests, docs,
-and validation evidence. Each phase begins with a tracer-bullet slice: the
-smallest path that proves the phase's architecture is wired end to end.
+## 4. Write Local Artifacts
 
-Do not mark anything complete in the generated checklist. It is handed to the
-implementation workflow.
-
-### Preserve the handoff contract
-
-If the source is a settled PRD, specification, or work description, retain its
-provenance in the checklist. Record the source reference, agreed public test
-seams, implementation prerequisites, and the distinction between current
-scope, future plumbing, and out-of-scope work. Do not reopen product decisions
-inside a checklist item; surface a real contradiction as a prerequisite gate.
-
-Every phase begins with a tracer bullet that proves one meaningful path through
-the relevant Python layers. Prefer vertical behavior over separate domain,
-adapter, and UI batches. A wide mechanical refactor is an exception: model it
-as expand, migrate, and contract work with a green validation boundary between
-each part.
-
-Each item should expose a small execution contract:
-
-- behavior delivered and observable failure behavior;
-- dependencies and blocking edge, if any;
-- public seam and test evidence;
-- documentation or contract updates;
-- exact discovered validation command and success condition;
-- execution role (`implement`, `research`, `tdd`, or another configured role)
-  when the repository's local workflow uses one.
-
-## Canonical output format
-
-The output is normally one Markdown file named according to the repository's
-existing convention. If no convention exists, use:
+Follow an existing repository convention. If none exists, write either:
 
 ```text
-docs/implementation/<feature-name>-implementation-checklist.md
+docs/implementation/<work-name>-implementation-checklist.md
 ```
 
-The file must contain these sections:
+or, for a checklist set:
 
-1. **Status** — date, primary source, supporting sources, detected Python
-   stack, and explicit "ready for execution" or prerequisite status.
-2. **Problem statement** — the outcome in product and engineering terms.
-3. **Locked implementation rules** — Python/project-specific rules below,
-   merged with repository instructions without weakening them.
-4. **Scope boundary** — in scope and out of scope.
-5. **Prerequisite contract gates** — dependencies that must exist before
-   integration work can be considered complete.
-6. **Runtime budgets and timeout contract** — command, budget, and success
-   meaning.
-7. **Closed-loop verifiable outputs** — numbered outputs with proof methods.
-8. **Phases** — each phase must include:
-   - Goal;
-   - tracer-bullet item followed by sequential `P-###` checklist items;
-   - Verifiable outputs;
-   - exact local validation tasks and budgets;
-   - invalid implementations to reject;
-   - Phase complete when.
-9. **Final gate** — cross-phase completion, quality, security, runtime, and
-   documentation checks.
+```text
+docs/implementation/<work-name>/overview.md
+docs/implementation/<work-name>/01-<slice>-implementation-checklist.md
+docs/implementation/<work-name>/02-<slice>-implementation-checklist.md
+```
 
-## Python locked rules
+### Parent Overview Format
 
-Adapt these rules to the repository's real configuration. A stricter existing
-rule wins; do not invent a weaker fallback.
+The parent overview contains:
 
-### Code and architecture
+1. status, primary source, supporting sources, and planning assumptions;
+2. the requested outcome, scope boundary, and non-goals;
+3. shared repository rules and discovered quality/runtime commands;
+4. a requirement-to-checklist traceability table;
+5. child order, explicit local prerequisites, and the next executable child;
+6. shared integration, migration, rollback, or compatibility constraints;
+7. parent completion criteria: every child complete and independently
+   rereviewed, cross-checklist integration proven, and all required final gates
+   recorded;
+8. deferred work and unresolved blockers.
 
-- Target the configured Python version. Type every new public and meaningful
-  internal function boundary; use the repository's configured type checker,
-  commonly Pyright or mypy.
-- Preserve the repository's package/dependency direction. Use a composition
-  root for concrete adapters and keep external SDKs, HTTP, subprocess, and
-  filesystem effects behind narrow typed interfaces where the architecture
-  requires it.
-- Prefer standard-library types, `pathlib`, dataclasses, Pydantic only at
-  declared input/output boundaries, context managers, explicit subprocess
-  argument lists, and structured logging where appropriate.
-- Keep modules cohesive. Do not create `utils`, `helpers`, `common`, or
-  `misc` dumping grounds or add abstractions that do not simplify a real seam.
-- Handle failures explicitly with narrow exceptions and preserved context. Do
-  not use broad catches, silent fallbacks, unbounded retries, or broad type
-  suppressions to make a gate pass.
-- Never hard-code, log, render, or persist secrets. Use the repository's
-  credential references and redaction rules.
-- If the repository requires explanatory comments, use its exact convention.
-  For AgentFabric-style repositories that means `# AI Suggests:`; never copy
-  a language-inappropriate `//` convention into Python.
+The overview never has implementation checkboxes. It coordinates child
+evidence; it does not replace it.
 
-### Tests and evidence
+### Standalone and Child Checklist Format
 
-- Test observable behavior, error handling, safety boundaries, public
-  contracts, and recovery semantics. Prefer focused unit tests, then
-  integration tests at real deterministic boundaries, then critical E2E tests.
-- Use real implementations when safe and deterministic. Use fakes/mocks only
-  for unavailable, unsafe, slow, nondeterministic, or prohibitively expensive
-  boundaries, and keep them faithful to the production contract.
-- Do not delete, weaken, skip, narrow, or rewrite tests merely to pass. Change
-  a test only for a demonstrable defect, unsupported environment coupling, or
-  intentional supported contract change.
-- Add explicit timeouts to tests and subprocesses where the project supports
-  them. A timeout is a defect signal, not permission to make the timeout
-  unbounded.
-- Require coverage to meet the configured threshold. Never lower the threshold
-  or add exclusions as an implementation shortcut.
+Each executable checklist contains:
 
-### Quality, runtime, and documentation
+1. **Status and provenance** - source documents, scope, assumptions, and
+   relationship to the parent overview when present.
+2. **Outcome and scope boundary** - observable result, non-goals, and
+   prerequisites.
+3. **Locked implementation rules** - repository-specific architecture,
+   security, quality, and documentation rules.
+4. **Closed-loop outputs** - numbered observable outputs and their proof.
+5. **Phases** - sequential `P-###` items. Every item states behavior, failure
+   behavior where relevant, test seam, documentation impact, discovered
+   validation command, success condition, and local dependency.
+6. **Completion gate** - focused and broad quality, runtime, browser/E2E, and
+   documentation proof required for this checklist.
+7. **Evidence record** - a place for the implementation skill to record
+   command, result, artifact path, and remaining blocker without treating a
+   checkbox as proof.
 
-- Discover and use the repository's actual formatter, lint, type, test,
-  coverage, dependency, security, secret-scan, and E2E commands.
-- If a mandatory startup quality gate exists, include it before every
-  operational runtime proof. For AgentFabric-style repositories this is
-  `python quality_gate.py` or the configured equivalent.
-- After every code change in the eventual implementation, run the canonical
-  safe application entrypoint and prove exit code 0 with usable output. A
-  module import, help text, quality-only command, or unit test is not runtime
-  proof.
-- Update affected documentation, contracts, examples, fixtures, migration
-  notes, and user-facing commands in the same phase as the behavior change.
-- Do not add dependencies unless direct use is justified and the repository's
-  dependency audit passes.
+Keep each `P-###` item small enough for one focused execution pass but large
+enough to produce a meaningful vertical behavior. A wide mechanical refactor
+is the exception: model expand, migrate, and contract as separate green
+validation boundaries.
 
-### Web-specific rules when a web surface exists
+## 5. Encode Python Implementation Constraints
 
-- Use the repository's selected web stack. If it is FastAPI/Jinja/HTMX, keep
-  routes thin, use typed Pydantic boundaries, preserve full-page fallback,
-  return explicit HTMX fragments, and do not introduce an SPA or Node toolchain
-  without a documented need.
-- Apply semantic HTML, labels, keyboard access, visible focus, CSRF and
-  authorization for browser mutations, autoescaping, safe CORS, and redacted
-  errors.
-- Validate responsive behavior in a running browser at representative mobile,
-  tablet, desktop, and ultra-wide sizes. Assert no unintended overflow,
-  clipping, layout shift, or hover-only required action.
-- Browser UI state must not become a second workflow source of truth. Submit
-  mutations through the same application/control-plane interface as CLI/TUI
-  clients and test stale revisions, duplicate submissions, reconnects, and
-  command receipts.
+Adapt rules to the repository's actual configuration; a stricter local rule
+wins. Require typed public and meaningful internal boundaries, cohesive
+modules, narrow failure handling, explicit subprocess arguments, safe secret
+handling, architecture-respecting adapters, behavior-first tests, configured
+coverage, and no weakened quality policy. Require the eventual implementation
+to prove the canonical safe runtime entrypoint after code changes and to run
+browser proof for changed web behavior.
 
-## Scope rules
+When a repository has a mandatory startup quality gate, include it before the
+runtime proof. Keep future plumbing, prerequisites, and out-of-scope work
+visibly separate from executable behavior.
 
-Keep the generated checklist limited to the requested product slice. Include
-prerequisite gates and explicit handoffs for dependencies, but do not silently
-expand a UI checklist into provider implementation, deployment, database
-migration, or issue creation.
+## 6. Check the Artifact Before Reporting It
 
-Separate these categories visibly:
+Before reporting completion, confirm:
 
-- **In scope:** behavior required for the current slice;
-- **Prerequisite:** required contract or implementation owned elsewhere;
-- **Future plumbing:** shape/projection reserved now but not executed;
-- **Out of scope:** deliberately excluded capability.
+- every primary source requirement maps to one executable checklist item;
+- the chosen shape is justified and every child is independently executable;
+- parent and child paths, order, prerequisites, and completion criteria agree;
+- item identifiers are unique within each checklist;
+- validation commands are discovered or marked as assumptions;
+- the artifact describes only local checklist scope, prerequisites, and
+  evidence;
+- no placeholder, file-presence-only, or unproven implementation can satisfy
+  a completion gate;
+- the next skill can execute directly from these files without relying on chat
+  context.
 
-When a future capability affects current layout or data contracts, add a
-compatibility item and validation fixture without implementing the future
-executor.
+## Output Report
 
-## Default runtime budgets
-
-Use repository-specific budgets when they exist. Otherwise start with these
-defaults and state that they are planning budgets:
-
-| Operation | Budget |
-| --- | ---: |
-| Focused unit/route test | 10 seconds |
-| Full non-browser test suite | 120 seconds |
-| Formatter/linter/type gate | 60 seconds |
-| Integration test group | 180 seconds |
-| One browser journey | 30 seconds |
-| Full browser/E2E suite | 300 seconds |
-| Application startup | 15 seconds |
-| Safe runtime smoke command | 30 seconds |
-
-All budgets must have an observable success condition. Never use
-`--exit-zero`, `continue-on-error`, hidden retries, or a command that discards
-its exit status.
-
-## Quality checks before finalizing the artifact
-
-Before reporting the checklist complete:
-
-- every primary requirement maps to at least one `P-###` item;
-- every phase has a tracer-bullet path, hard validation gate, verifiable
-  outputs, and invalid-implementation rejection criteria;
-- every item maps to tests, documentation, and validation evidence;
-- all item IDs are sequential and unique;
-- all validation commands were discovered or are clearly marked assumptions;
-- package manager and Python tooling match repository metadata;
-- the checklist preserves existing domain vocabulary and ADR decisions;
-- deferred capabilities are visibly separated from current scope;
-- no scaffold-only, file-presence-only, or placeholder-only implementation can
-  satisfy a phase gate;
-- the generated Markdown has no unfinished TODO placeholders or secret-shaped
-  fixture values.
-- the checklist identifies the spec or work-item provenance and agreed test
-  seams;
-- phase items have observable vertical outcomes and prerequisites rather than
-  only layer/file assignments;
-- the implementation workflow can start from the local checklist without
-  relying on this conversation being available.
-
-## Output report
-
-After creating the checklist, report:
-
-- output path;
-- phase and item counts;
-- verifiable-output count;
-- source documents consumed;
-- detected Python version/package layout/tooling;
-- exact validation commands included;
-- whether runtime validation and browser validation are included;
-- the next recommended skill, normally `implement-python-checklist`.
+Report the artifact paths, whether the result is standalone or coordinated,
+the child count and next executable child when applicable, source documents
+consumed, detected tooling, planned runtime/browser proof, assumptions, and
+the next skill: `implement-python-checklist` for an executable checklist or
+`plan-python-checklist` when a parent overview needs coordination first.

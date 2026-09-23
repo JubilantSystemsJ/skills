@@ -1,21 +1,24 @@
 ---
 name: rereview-python-implementation
-description: Skeptically re-audit a Python implementation against its checklist, then fix and prove real gaps in code, tests, documentation, and runtime wiring. Use after implementation or when claimed completion needs independent verification.
+description: Skeptically re-audit a completed local Python implementation checklist, including child checklists and their parent overview when present, then fix and prove real gaps in code, tests, documentation, and runtime wiring.
 ---
 
 # Rereview Python Implementation
 
-Re-audit an implemented Python checklist without trusting its checkmarks. The
-goal is runtime truth: identify misleading claims, missing behavior, weak
-tests, stale documentation, dead paths, and broken wiring; correct what can be
-corrected; and leave a precise evidence trail for anything genuinely blocked.
+Re-audit a completed local Python implementation checklist without trusting its
+checkmarks. The goal is runtime truth: identify misleading claims, missing
+behavior, weak tests, stale documentation, dead paths, and broken wiring;
+correct what can be corrected; and leave a precise evidence trail for anything
+genuinely blocked.
 
 ## Build the audit map
 
-Read the entire checklist, optional validation/test records, linked product
-requirements, architecture documents, ADRs, repository instructions, relevant
-implementation and tests, and project tooling configuration. Parse every
-checked and unchecked checklist item into a live audit table:
+Read the entire executable checklist, optional validation/test records, linked
+product requirements, architecture documents, ADRs, repository instructions,
+relevant implementation and tests, and project tooling configuration. When the
+checklist belongs to a set, read the parent overview first, then audit one
+completed child at a time. Parse every checked and unchecked executable item
+into a live audit table:
 
 | Item | Claimed state | Intended behavior | Proof required | Finding | Evidence |
 | --- | --- | --- | --- | --- | --- |
@@ -30,6 +33,20 @@ Also verify the handoff chain: the implementation still matches the originating
 PRD/specification or description, declared prerequisites were respected, agreed
 test seams were used, and the evidence can be consumed by the next local
 execution phase.
+
+## Audit Parent Overviews as Coordination Records
+
+The parent overview has no implementation checkboxes to audit. Instead, verify
+that each source requirement maps to one child, each completed child has an
+evidence record and rereview result, declared local prerequisites match the
+implementation order, and the parent has not claimed completion before its
+cross-checklist integration and final gates pass.
+
+Do not let a completed child imply completion of another child or the parent.
+If a child invalidates shared assumptions, mark the affected overview and
+children blocked, record the evidence, and route the plan back to
+`create-python-implement-checklist` for an explicit revision. Local artifacts
+and recorded proof remain the sole basis for that decision.
 
 ## Per-item skeptical loop
 
@@ -91,8 +108,10 @@ not yet possible.
 
 Update checklist items only with clear audit notes. Preserve an incomplete
 checkbox for a real blocker. Add newly found gaps as a distinct `RG-###` item
-with the discovery reason and required proof. Keep transient execution detail
-in the checklist or validation record rather than architecture documents.
+with the discovery reason and required proof. For a checklist set, update the
+parent overview with the child audit result and any changed next action. Keep
+transient execution detail in the checklist or validation record rather than
+architecture documents.
 
 ## Final proof and report
 
@@ -103,11 +122,9 @@ canonical safe application entrypoint and confirm usable success. A passing
 import, filtered test, or documentation assertion is not operational proof.
 
 If the repository has an execution-control boundary, verify it explicitly:
-validation may produce a report and update the local evidence record, but any
-human approval, merge, or deployment actions remain separate. Where external
-state is projected, verify that it is reconciled with internal execution state
-rather than treating a board edit or UI projection as a second workflow
-authority.
+validation may update local evidence records, while human approval, merge, or
+deployment actions remain separate. A display or status indicator is not
+execution evidence.
 
 Finish with a PR-style rereview summary:
 
@@ -119,5 +136,6 @@ Finish with a PR-style rereview summary:
 - remaining blockers, risks, and unverified external boundaries.
 
 The rereview is complete only when every checklist item has an audit finding
-and all remediated work has passing evidence; otherwise report the unresolved
-state without implying completion.
+and all remediated work has passing evidence. For a checklist set, report each
+child result separately and state whether the parent completion criteria pass;
+otherwise report the unresolved state without implying completion.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement C# Checklist"
+  short_description: "Execute C# checklists with live proof"
+  default_prompt: "Use $implement-csharp-checklist to execute this approved local C# implementation checklist and record evidence."

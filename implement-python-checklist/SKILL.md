@@ -1,21 +1,27 @@
 ---
 name: implement-python-checklist
-description: Execute an existing phased implementation checklist derived from a Python PRD, specification, or work description, with behavior-first tests, repository quality gates, and runtime proof. Use after a checklist is approved; use planning skills to create or reshape a checklist.
+description: Execute one approved local Python implementation checklist, including a child selected by a parent overview, with behavior-first tests, repository quality gates, and live runtime proof. Use after local checklist planning is approved.
 ---
 
 # Implement Python Checklist
 
-Turn one approved Python implementation checklist into working, evidenced
-behavior. This skill executes; it does not rewrite product scope, create a new
-roadmap, or treat item checkmarks as proof.
+Turn one approved local Python implementation checklist into working, evidenced
+behavior. This skill executes one bounded checklist at a time; it does not
+rewrite product scope, create planning artifacts, create external work, or
+treat item checkmarks as proof.
 
 ## Establish the execution contract
 
-Read the checklist in full, its originating PRD/specification or work
-description, repository and local instructions, linked source documents,
-relevant ADRs/contracts, the nearest code and committed tests, and
-the project's Python/CI tooling configuration. Extract every phase, item,
-output, prerequisite, validation command, budget, and completion condition.
+Read the executable checklist in full, its originating source material,
+repository and local instructions, linked source documents, relevant
+ADRs/contracts, the nearest code and committed tests, and the project's
+Python/CI tooling configuration. When the checklist belongs to a set, read its
+parent overview first for shared rules, prerequisites, child order, and parent
+completion criteria; execute only the selected child.
+
+Extract every phase, item, output, prerequisite, validation command, budget,
+and completion condition. A parent overview is coordination metadata, not an
+executable checklist and not authority to implement a different child.
 
 Before the first change, report the intended phase order and build a short live
 TODO. Discover these from repository evidence rather than assuming them:
@@ -33,6 +39,24 @@ PRD/specification names one, use it; if it does not, propose the highest useful
 seam and record the decision before the first test. The implementation should
 be understandable from the local checklist and source documents without
 reconstructing the original conversation.
+
+## Coordinate Checklist Sets Locally
+
+For a standalone checklist, begin execution after its prerequisites pass. For a
+checklist set, use the parent overview to select the next child whose declared
+local prerequisites and evidence gates are satisfied. Use only those declared
+local facts; filenames and phase numbers are not dependency evidence.
+
+When a child completes, update its evidence record with the commands run,
+results, artifact paths, and any remaining blocker. Update the parent overview
+only with the child's state, evidence reference, and newly unblocked child. Do
+not mark the parent complete until every child is implemented and rereviewed
+and the parent integration and final gates pass.
+
+If execution shows that the checklist boundary is wrong, stop at the smallest
+safe decision point. Record the conflict and return the checklist set to
+`create-python-implement-checklist` for an explicit revision; do not silently
+absorb another child's scope or invent a new child during implementation.
 
 ## Execute incrementally
 
@@ -91,8 +115,8 @@ re-running its full gate.
 At completion, review the diff against two independent questions: does it meet
 the originating PRD/specification, and does it meet the repository's Python
 standards and architecture? Keep the reports separate. Resolve material
-findings before the draft-PR handoff or record them as explicit blockers. Do
-not automatically merge, approve, or close external work.
+findings before handing the checklist to `rereview-python-implementation`, or
+record them as explicit blockers.
 
 ## Keep records true
 
@@ -109,12 +133,14 @@ simulate external success or replace live proof with a claim.
 
 If work is paused or handed to another session, persist the current phase,
 revision, commands, evidence, and next action in the local checklist or
-validation record. That file-backed record is the handoff source; chat context
-is not a second authority.
+validation record. For a checklist set, preserve the parent overview's next
+executable child as well. These file-backed records are the handoff source;
+chat context is not a second authority.
 
 ## Completion report
 
-Lead with the implemented behavior. Include completed checklist items, files or
-contracts materially changed, behavior-first tests added, exact final gates
-run, runtime proof, and any explicit blockers or follow-ups. State partial
-completion plainly.
+Lead with the implemented behavior. Include the executed checklist path,
+completed items, files or contracts materially changed, behavior-first tests
+added, exact final gates run, live runtime proof, evidence recorded, and any
+explicit blockers or follow-ups. For a child checklist, name the parent
+overview and the next local action. State partial completion plainly.
