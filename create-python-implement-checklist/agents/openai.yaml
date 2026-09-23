@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Python Implementation Checklist"
+  short_description: "Create phased Python implementation checklists"
+  default_prompt: "Use $create-python-implement-checklist to create a phased, verifiable implementation checklist for this Python repository."
