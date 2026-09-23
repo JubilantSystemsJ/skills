@@ -2,9 +2,9 @@
 
 A small personal collection of Claude Code skills for shipping a change end to end:
 plan it, do it, verify it actually happened, then explain it. Built to be small,
-composable, and boring in the good way — no single skill tries to do everything.
+composable.
 
-## The Plan → Do → Verify pattern
+## The Plan → Do(Build) → Verify pattern
 
 **The problem.** Ask an agent to "just implement this feature" and three things get
 blurred into one pass: deciding what to build, actually building it, and judging whether
