@@ -1,16 +1,18 @@
 ---
 name: code-tour
 description: >-
-  Take the reader on a tour of a code change or a whole codebase. For one
-  diff, branch, or pull request: produce a rich, self-contained HTML page
+  Take the reader on a tour of a code change or a whole codebase. Route a
+  pull request, branch, commit range, or other change request to a rich,
+  self-contained HTML page
   with Catch-up, The Gist, How It Fits Together, Follow the Data, In the
-  Code, and a Prove It quiz, written to a code-tours folder outside the repo.
-  Triggers on "tour this change", "tour this diff", "tour this PR", "explain
-  this diff", "walk me through this branch", "explain PR 1234". For a whole
-  codebase: a live, conversational, multi-turn teaching session with no file
-  output. Triggers on "tour this codebase", "teach me this codebase", "explain
-  this codebase", "explain this project". Not for reviewing changes and not
-  for explaining a standalone issue ticket.
+  Code, and a Prove It quiz, written to a code-tours folder outside the repo;
+  route an explicit whole-codebase request to a live, conversational,
+  multi-turn teaching session with no file output. Triggers on "tour this
+  change", "tour this diff", "tour this PR", "tour branch feature/login",
+  "explain PR 1234", "/code-tour repo", "code-tour repo authentication", "/code-tour
+  branch feature/login", "/code-tour commit abc123 def456", "tour this codebase",
+  "teach me this repository", and "explain this project". Not for reviewing changes and
+  not for explaining a standalone issue ticket.
 ---
 
 # Code Tour
@@ -76,12 +78,43 @@ read the same rule.
 
 ## Choosing a mode
 
-A request that names a diff, a branch, a pull request, or a commit range — "tour this
-change", "tour this diff", "tour this PR" — runs diff mode. A request that asks to tour,
-understand, or be taught a codebase as a whole, naming no target ref — "tour this
-codebase" — runs repo mode. When a request could be read either way — "tour this
-project's authentication flow" names no ref and could mean either a recent change or the
-whole subsystem — ask once which is meant, rather than guessing.
+`code-tour` has one target input and two mutually exclusive scopes. Choose the scope from
+what the reader wants explained, then resolve the target inside that scope:
+
+| Request shape | Mode | Target and result |
+| --- | --- | --- |
+| A pull request number or URL, or wording such as "this PR" | Diff | The pull request head and its merge-base diff; write one HTML tour. |
+| The explicit `branch` parameter, such as `/code-tour branch [name]` | Diff | The named branch, or the current branch when `[name]` is omitted, versus the default branch; write one HTML tour. |
+| The explicit `commit` parameter, `/code-tour commit <source-id> <target-id>` | Diff | Compare the source commit's tree with the target commit's tree; write one HTML tour focused on the target-side change. |
+| A branch name, "this branch", a diff/change, or a commit range | Diff | A named branch versus the default branch, a change in the current checkout, or the explicit range; write one HTML tour. |
+| The explicit `repo` parameter, such as `/code-tour repo [focus]` | Repo | The current checkout as a whole, optionally focused on the named area; teach it in the conversation with no file output. |
+| "Tour the whole codebase/repository/project" with no target ref | Repo | The current checkout as a whole; teach it in the conversation with no file output. |
+| Bare `/code-tour` with no further wording | Diff | The current branch versus the default branch; write one HTML tour. |
+
+In short: a PR, branch, diff, change, or commit range means **one change**; an explicit
+whole-codebase/repository/project request or the `repo` parameter means **the repository**.
+The current branch does not by itself switch to repo mode — it is the default diff target,
+including when selected explicitly with `branch`.
+
+`repo` is a mode selector, not a branch or repository name. Use `/code-tour repo` for a
+whole-repository tour of the current checkout, or add a focus after it, such as
+`/code-tour repo authentication flow`. It does not write an HTML artifact.
+
+`branch` is a Diff-mode selector. Use `/code-tour branch` for the current branch, or
+`/code-tour branch feature/login` for a named branch. Both compare the selected branch
+with the repository's default branch and write an HTML artifact.
+
+`commit` is a Diff-mode selector with an ordered pair of commit IDs. Use
+`/code-tour commit <source-id> <target-id>` where `source-id` is the baseline and
+`target-id` is the commit being explained. Compare the source tree to the target tree and
+write an HTML artifact; do not reverse the IDs.
+
+If a request combines both scopes, such as "tour the whole codebase on branch
+`feature/login`", ask whether the reader wants the entire repository at that ref or the
+branch's change against the default branch. Do not silently turn a whole-codebase request
+into a diff tour. Likewise, "tour this project's authentication flow" names neither a
+target ref nor a clear scope; ask once whether the reader means the recent change or the
+whole subsystem.
 
 ## Shared: the evidence discipline
 
@@ -191,6 +224,10 @@ Determine what to explain, in this precedence:
 
 - An explicit pull request number or URL:
   `gh pr view <n> --json headRefName,title,body,url` then `gh pr diff <n>`.
+- An explicit `branch` parameter: `/code-tour branch [name]`, using the named branch or
+  the current branch when the name is omitted.
+- An explicit `commit` parameter: `/code-tour commit <source-id> <target-id>`, comparing
+  the source commit's tree with the target commit's tree.
 - A named branch: diff it against the repo's default branch.
 - A commit range such as `abc123..def456`: diff the range directly.
 - No argument: the current branch against the default branch.
