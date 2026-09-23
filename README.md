@@ -61,10 +61,10 @@ flowing through the real change, a code walkthrough ordered by logical flow rath
 file order, and a short quiz to check it actually landed. Use `/code-tour branch` for the
 current branch or `/code-tour branch feature/login` for a named branch. Use `/code-tour
 commit abc123 def456` to compare an ordered source commit with a target commit. Use
-`/code-tour repo` for an explicit whole-repository tour, or `/code-tour repo
-authentication flow` to focus that conversation on one area. Repo mode stays
-conversational and writes no file. With no further wording, `/code-tour` defaults to the
-current branch versus the repository's default branch.
+`/code-tour repo` for an explicit whole-repository HTML report, or `/code-tour repo
+authentication flow` to focus that report on one area. Every scope writes a self-contained
+HTML file. With no further wording, `/code-tour` defaults to the current branch versus the
+repository's default branch.
 
 This is the natural last step after Plan → Do → Verify: the checklist cycle proves the
 change is *correct*; Code Tour makes it *understandable* - to a teammate reviewing the PR,
