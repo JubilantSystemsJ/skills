@@ -1,0 +1,4 @@
+interface:
+  display_name: "Do Checklist (Python)"
+  short_description: "Do a Python checklist with proof"
+  default_prompt: "Use $do-checklist-python to implement this Python checklist with tests and runtime proof."

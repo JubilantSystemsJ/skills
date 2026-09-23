@@ -172,7 +172,7 @@ Before reporting completion, confirm:
 Report the artifact paths, whether the result is standalone or coordinated,
 the child count and next executable child when applicable, source documents
 consumed, detected tooling, planned runtime/browser proof, assumptions, and
-the next skill: `work-checklist-python` for an executable checklist. (A
+the next skill: `do-checklist-python` for an executable checklist. (A
 parent-overview coordination skill was referenced here before this rename but
 does not exist among this repo's skills; flag that gap rather than inventing
 a target for it.)

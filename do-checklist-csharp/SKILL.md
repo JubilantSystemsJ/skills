@@ -1,9 +1,9 @@
 ---
-name: work-checklist-csharp
+name: do-checklist-csharp
 description: Execute one approved local C# and .NET implementation checklist, including a child selected by a parent overview, with behavior-first tests, quality gates, and live runtime proof. Use after local checklist planning is approved.
 ---
 
-# Work Checklist (C#)
+# Do Checklist (C#)
 
 Turn one approved local C# implementation checklist into working, evidenced
 behavior. This skill executes one bounded checklist at a time; it does not

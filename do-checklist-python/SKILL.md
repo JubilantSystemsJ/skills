@@ -1,9 +1,9 @@
 ---
-name: work-checklist-python
+name: do-checklist-python
 description: Execute one approved local Python implementation checklist, including a child selected by a parent overview, with behavior-first tests, repository quality gates, and live runtime proof. Use after local checklist planning is approved.
 ---
 
-# Work Checklist (Python)
+# Do Checklist (Python)
 
 Turn one approved local Python implementation checklist into working, evidenced
 behavior. This skill executes one bounded checklist at a time; it does not

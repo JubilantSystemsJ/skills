@@ -190,4 +190,4 @@ Before reporting completion, confirm:
 Report artifact paths, standalone or coordinated shape, child count and next
 executable child when applicable, source documents consumed, target framework
 and tooling detected, planned runtime/browser proof, assumptions, and the next
-skill: `work-checklist-csharp`.
+skill: `do-checklist-csharp`.
