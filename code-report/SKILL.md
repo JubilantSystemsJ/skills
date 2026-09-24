@@ -70,6 +70,40 @@ Use section-level source references in the reader-facing page. Keep detailed anc
 commands, research provenance, and evidence records in the source bundle. Never claim that
 a filename or registration alone proves an active entrypoint.
 
+## Component context contract
+
+Never introduce a component as an unexplained name or filename. Before using a component
+name in a flow, create a context packet for it with:
+
+- **What it is** — the kind of thing it is: command adapter, application service, state
+  store, route group, renderer, worker, external adapter, or another concrete role.
+- **What it does** — the responsibility it owns in product terms.
+- **What it receives** — the request, event, data, or dependency entering it.
+- **What it produces** — the result, state change, view, event, or error leaving it.
+- **Where it fits** — the upstream and downstream neighbors and the relationship between
+  them.
+- **Its boundary** — what it deliberately does not own.
+- **Why it exists** — documented reason when available; otherwise label the explanation
+  **Inferred** and state the evidence used.
+- **Evidence** — source locations and runtime proof supporting the description.
+
+The architecture section must render a component map or cards containing these fields for
+every component that the flow depends on. The first mention in prose must link back to or
+repeat the short definition. Do not write sentences such as “the resolver handles it”
+until “resolver” has been explained as a component with an input, output, neighbor, and
+boundary. If a component cannot be explained from evidence, call it **Unknown** rather
+than filling the gap with a generic software pattern.
+
+Trace relationships explicitly:
+
+```text
+component A receives X -> transforms or coordinates it -> gives Y to component B
+```
+
+A module list is not a component map. A component map explains responsibility, product
+relevance, ownership, and boundaries. Use the map to decide which surrounding modules are
+necessary context and which would be irrelevant inventory.
+
 ## Report contract
 
 Use one responsive page with these sections, in order:
@@ -84,6 +118,12 @@ Use one responsive page with these sections, in order:
 Adapt depth to reader friction and codebase complexity. The minimum useful report covers
 purpose, boundaries, one real flow, evidence, and a learning check. Omit material that does
 not support the reader task, selected flow, architecture understanding, or quiz concept.
+
+For every section, answer the reader's likely “what is that?” question before moving on.
+For architecture, show the component context packets. For the real flow, narrate each
+transition as “input enters this component, this responsibility changes it, and this
+output crosses this boundary.” For the implementation walkthrough, group code by product
+responsibility and explain why each layer is involved before citing its file.
 
 Write layered explanations: answer first, define names before using them, then expose
 technical depth through disclosure controls. Prefer one idea per sentence, active voice,

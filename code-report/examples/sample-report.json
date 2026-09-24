@@ -38,10 +38,36 @@
       "sources": ["README"]
     }
   ],
+  "components": [
+    {
+      "id": "entrypoint",
+      "name": "Request entrypoint",
+      "kind": "command adapter",
+      "role": "Accepts the product request and starts the use-case path.",
+      "receives": ["A user request"],
+      "produces": ["A validated application call"],
+      "neighbors": ["Validator", "Result layer"],
+      "boundary": "It does not own validation rules or result formatting.",
+      "why": "It gives product input one stable entry into the application flow.",
+      "sources": ["entrypoint"]
+    },
+    {
+      "id": "validator",
+      "name": "Validator",
+      "kind": "application service",
+      "role": "Checks whether the request meets the product contract.",
+      "receives": ["The request from the entrypoint"],
+      "produces": ["Accepted data or an actionable error"],
+      "neighbors": ["Request entrypoint", "Result layer"],
+      "boundary": "It does not own transport concerns or user-interface rendering.",
+      "why": "It keeps the product rule in one place before downstream work begins.",
+      "sources": ["entrypoint"]
+    }
+  ],
   "sections": [
     {"id": "background", "title": "Catch-up", "summary": "What the product does.", "body": "A user submits a request. The product validates it and returns a result.", "sources": ["README"]},
     {"id": "intuition", "title": "The Gist", "summary": "The central mechanism.", "body": "Validation turns an untrusted request into a result the product can safely use.", "sources": ["entrypoint"]},
-    {"id": "architecture", "title": "How It Fits Together", "summary": "The main responsibilities.", "body": "The entrypoint accepts the request. The validator checks it. The result layer returns the outcome.", "sources": ["entrypoint"]},
+    {"id": "architecture", "title": "How It Fits Together", "summary": "The main responsibilities.", "body": "The entrypoint accepts the request. The validator checks it. The result layer returns the outcome.", "components": ["entrypoint", "validator"], "sources": ["entrypoint"]},
     {"id": "dataflow", "title": "Follow the Data", "summary": "One request from input to output.", "body": "Request -> validation -> result.", "sources": ["entrypoint"]},
     {"id": "code", "title": "In the Code", "summary": "The implementation path.", "body": "The entrypoint receives the request and passes it to validation before producing the result.", "sources": ["entrypoint"]},
     {"id": "quiz", "title": "Prove It", "summary": "Check the reasoning.", "body": "Use the questions below to test the flow.", "sources": ["entrypoint"]}

@@ -58,6 +58,18 @@ def validate_manifest(manifest: dict) -> None:
     missing = REQUIRED_IDS - ids
     if missing:
         fail(f"missing sections: {', '.join(sorted(missing))}")
+    architecture = next((section for section in sections if section.get("id") == "architecture"), {})
+    component_ids = architecture.get("components", [])
+    components = {component.get("id"): component for component in manifest.get("components", [])}
+    if not component_ids:
+        fail("architecture section has no component context packets")
+    for component_id in component_ids:
+        component = components.get(component_id)
+        if not component:
+            fail(f"architecture references missing component: {component_id}")
+        for key in ("name", "kind", "role", "receives", "produces", "neighbors", "boundary", "why", "sources"):
+            if not component.get(key):
+                fail(f"component {component_id} missing context field: {key}")
     for question in manifest.get("quiz", {}).get("questions", []):
         options = question.get("options", [])
         correct = question.get("correct", [])

@@ -58,9 +58,35 @@ def render_sources(source_ids: list[str], sources: list[dict]) -> str:
     return f'<details><summary>Sources for this section</summary><ul>{"".join(items)}</ul></details>' if items else ""
 
 
+def render_components(component_ids: list[str], components: list[dict], sources: list[dict]) -> str:
+    by_id = {str(component.get("id")): component for component in components}
+    cards = []
+    for component_id in component_ids:
+        component = by_id.get(component_id)
+        if not component:
+            cards.append(f'<article class="component"><h3>{esc(component_id)}</h3><p><span class="evidence">unknown</span> No component context packet was supplied.</p></article>')
+            continue
+        def items(values: list[str]) -> str:
+            return "".join(f"<li>{esc(value)}</li>" for value in values)
+        cards.append(
+            '<article class="component">'
+            f'<h3>{esc(component.get("name", component_id))}</h3>'
+            f'<p><span class="evidence">{esc(component.get("kind", "component"))}</span> {esc(component.get("role", ""))}</p>'
+            f'<dl><dt>Receives</dt><dd><ul>{items(component.get("receives", []))}</ul></dd>'
+            f'<dt>Produces</dt><dd><ul>{items(component.get("produces", []))}</ul></dd>'
+            f'<dt>Fits with</dt><dd><ul>{items(component.get("neighbors", []))}</ul></dd>'
+            f'<dt>Boundary</dt><dd>{esc(component.get("boundary", "Unknown"))}</dd>'
+            f'<dt>Why it exists</dt><dd>{esc(component.get("why", "Unknown"))}</dd></dl>'
+            f'{render_sources(component.get("sources", []), sources)}'
+            '</article>'
+        )
+    return f'<div class="component-grid">{"".join(cards)}</div>' if cards else ""
+
+
 def render_sections(manifest: dict) -> tuple[str, str]:
     sections = manifest.get("sections", [])
     sources = manifest.get("sources", [])
+    components = manifest.get("components", [])
     content = []
     toc = ["<strong>Contents</strong>"]
     clusters = [("Understand", sections[:3]), ("Trace", sections[3:5]), ("Check", sections[5:])]
@@ -77,6 +103,7 @@ def render_sections(manifest: dict) -> tuple[str, str]:
             content.append(
                 f'<section id="{section_id}"><h2>{title}</h2>'
                 f'<p class="lede">{esc(section.get("summary", ""))}</p>'
+                f'{render_components(section.get("components", []), components, sources)}'
                 f'{render_text(section.get("body", ""))}'
                 f'{render_visual(section.get("visual"))}'
                 f'{render_sources(section.get("sources", []), sources)}</section>'
