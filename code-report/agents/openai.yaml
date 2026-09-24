@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Report"
+  short_description: "Explain codebases with grounded offline reports"
+  default_prompt: "Use $code-report to explain this codebase through a grounded, self-contained offline report."
