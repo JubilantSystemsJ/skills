@@ -72,6 +72,31 @@ before moving to the next item. Never batch several added steps into one
 unverified block, and never treat a phase's audit as complete while an added
 step is still open.
 
+Never record a finding as a new prose subsection, heading, or free-standing
+paragraph in the checklist file - that is exactly the drift this skill exists
+to prevent. Every discovery becomes a checklist bullet with an ID and a
+checkbox, named by where it surfaced:
+
+- A finding surfaced before auditing any of the phase's items is a
+  phase-level item: `Phase N pre-phase inventory <letter>` (or a single
+  unlettered `Phase N pre-phase inventory` item when there is only one
+  finding).
+- A finding surfaced while auditing a specific item, including a real gap
+  the original implementation missed, is a new `RG-###` item that names the
+  item it was found auditing; it is never folded into that item's own
+  checkbox or restated as a separate note near it.
+
+Before creating a new `RG-###` item, check whether an existing `RG-###` item
+already names the same gap. If it does, extend that item's own text and
+evidence instead of writing a second, separately-worded description of the
+same fact elsewhere in the file.
+
+Keep the checklist itself durable. Session- or process-only facts - a port
+number, whether a dev server was left running, the exact command sequence of
+one working session - belong in the evidence record, not the plan; carry
+into the checklist item's own body only the facts that change what a future
+audit or execution must do.
+
 ## Per-Item Skeptical Loop
 
 For each item, compare promised behavior with the real code path, public

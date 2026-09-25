@@ -79,6 +79,33 @@ before starting the next item. Never batch several added steps into one
 unverified block, and never treat a phase as complete while an added step is
 still open.
 
+Never record a finding, status update, or discovery as a new prose
+subsection, heading, or free-standing paragraph in the checklist file - that
+is exactly the drift this skill exists to prevent. Every discovery becomes a
+checklist bullet with an ID and a checkbox, named by where it surfaced:
+
+- A finding surfaced before any of the phase's `P-###` items has started
+  execution is a phase-level item: `Phase N pre-phase inventory <letter>`
+  (or a single unlettered `Phase N pre-phase inventory` item when there is
+  only one finding).
+- A finding surfaced while executing a specific `P-###` item is a suffix of
+  that item's own ID (`P-061a`, `P-061b`, ...), continuing from the next
+  letter not already reserved by planning - never colliding with a lettered
+  child the plan already defined for that item.
+
+Before creating a new item, check whether an existing planned item already
+names the same behavior. If it does, extend that item's own text and
+evidence instead of writing a second, separately-worded description of the
+same fact elsewhere in the file: the checklist keeps one true description per
+behavior, not a narrative history of how it was discovered.
+
+Keep the checklist itself durable. Session- or process-only facts - a port
+number, whether a dev server was left running, the exact command sequence of
+one working session - belong in the evidence record, not the plan; carry
+into the checklist item's own body only the facts that change what a future
+execution must do, such as a disposable item that is safe to reuse, one to
+avoid, or a required profile/credential.
+
 ## Execute Incrementally
 
 Work one `P-###` item at a time:
