@@ -33,6 +33,9 @@ Each phase comes in a Python and a C#/.NET flavor:
 - **`verify-checklist-python`** / **`verify-checklist-csharp`** - come back later with no
   memory of writing the code, re-read what's actually there against what the checklist
   claimed, and fix any gap it finds rather than just reporting it.
+- **`code-report`** - explain a repository, change, or focused product area through a
+  product-aware, evidence-grounded, self-contained offline HTML report, with a JSON
+  manifest and Markdown decision/evidence record.
 
 ### A practical walkthrough
 
@@ -59,6 +62,7 @@ The C# flavor works the same way, just swap `python` for `csharp`.
 | [`do-checklist-csharp`](./do-checklist-csharp/SKILL.md) | C# / .NET | Do |
 | [`verify-checklist-python`](./verify-checklist-python/SKILL.md) | Python | Verify |
 | [`verify-checklist-csharp`](./verify-checklist-csharp/SKILL.md) | C# / .NET | Verify |
+| [`code-report`](./code-report/SKILL.md) | Any codebase | Explain |
 
 Full detail, triggers, and rules live in each skill's own `SKILL.md` - this file is a map,
 not a replacement for reading them.
