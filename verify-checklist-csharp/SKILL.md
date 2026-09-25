@@ -40,6 +40,38 @@ If a child invalidates shared assumptions, mark affected children blocked,
 record evidence, and route the artifacts to `plan-checklist-csharp`
 for an explicit revision.
 
+## Pre-Phase Inventory
+
+Before auditing each phase's items, including the first, pause and take
+inventory of that phase as an audit boundary. Check whether the original
+implementation missed something in this phase's scope, whether there is an
+oversight in the phase's stated behavior or assumptions, or whether extra
+verification work is required before this phase's items can be audited
+meaningfully. List each finding as a lettered pre-phase item (`a`, `b`, `c`,
+... `z`) scoped to this phase; do not fold these into `RG-###` or the phase's
+existing item numbering.
+
+For every lettered item, decide and record one of two outcomes: it blocks
+auditing this phase and must be resolved here first, or it - or the phase's
+audit itself - is independent enough to hand to another agent or session to
+progress in parallel. Apply the same skeptical discipline as the rest of this
+audit: investigate, verify the result against real evidence rather than a
+claim, record that evidence, and only then tick the lettered item off before
+moving to the next one or into the phase's per-item audit. When the inventory
+finds nothing, record that explicitly and proceed.
+
+## Any Added Step Follows the Checklist Pattern
+
+This discipline is not limited to pre-phase inventory items. Any step added
+to a phase during the audit - a pre-phase finding, a newly discovered
+`RG-###` gap, an edge case surfaced while auditing an item, or a correction
+the parent overview requires - is verified the same way as every other item
+on the list: name it, investigate or fix it, confirm the result against real
+evidence rather than a claim, record that evidence, and only then tick it off
+before moving to the next item. Never batch several added steps into one
+unverified block, and never treat a phase's audit as complete while an added
+step is still open.
+
 ## Per-Item Skeptical Loop
 
 For each item, compare promised behavior with the real code path, public

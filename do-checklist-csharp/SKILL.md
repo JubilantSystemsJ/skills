@@ -46,6 +46,39 @@ If execution proves the split wrong, stop at the smallest safe decision point,
 record the evidence, and return the artifacts to
 `plan-checklist-csharp` for an explicit revision.
 
+## Pre-Phase Inventory
+
+Before starting execution of any phase, including the first, pause and take
+inventory of that phase's boundary. Check for anything the phase's items
+missed, any oversight in scope or assumptions, or any additional local
+prerequisite work the phase actually needs before its items can run safely.
+List each finding as a lettered pre-phase item (`a`, `b`, `c`, ... `z`) scoped
+to this phase; do not fold these into the phase's `P-###` numbering.
+
+For every lettered item, decide and record one of two outcomes: it blocks
+this phase and must be resolved here before continuing, or it - or the phase
+itself - is independent enough to hand to another agent or session to
+progress in parallel. Apply the same checklist discipline used everywhere
+else in this skill: do the work or make the handoff, verify the result
+against real evidence rather than a claim, record that evidence, and only
+then tick the lettered item off before moving to the next one or into the
+phase's first `P-###` item. Do not begin phase execution while a blocking
+lettered item is still open. When the inventory finds nothing, record that
+explicitly and proceed.
+
+## Any Added Step Follows the Checklist Pattern
+
+This discipline is not limited to pre-phase inventory items. Any step added
+to a phase after the checklist was written - a pre-phase finding, a
+prerequisite discovered mid-implementation, an edge case surfaced while
+working an item, or a correction the parent overview requires - is executed
+the same way as every other item on the list: name it, do the smallest
+cohesive piece of work it needs, prove the resulting behavior with real
+evidence rather than a claim, record that evidence, and only then tick it off
+before starting the next item. Never batch several added steps into one
+unverified block, and never treat a phase as complete while an added step is
+still open.
+
 ## Execute Incrementally
 
 Work one `P-###` item at a time:
